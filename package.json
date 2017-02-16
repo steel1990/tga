@@ -14,6 +14,9 @@
     "tga",
     "image"
   ],
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "author": "lbbsteel@gmail.com",
   "license": "MIT",
   "bugs": {
