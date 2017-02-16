@@ -1,5 +1,4 @@
 const debug = require('debug')('TGA');
-const ProgressBar = require('progress');
 const SmartBuffer = require('smart-buffer').SmartBuffer;
 
 // doc: http://paulbourke.net/dataformats/tga/
@@ -119,18 +118,6 @@ class TGA {
             this.buffer.skip(skipover);
         }
     }
-    readTick(count) {
-        if (!this._bar) {
-            var msg = 'Reading pixels [:bar] :percent :etas/:elapseds | :current/:total';
-            this._bar = new ProgressBar(msg, {
-                total: this.header.width * this.header.height,
-                complete: '=',
-                incomplete: '-',
-                width: 40
-            });
-        }
-        this._bar.tick(count);
-    }
     readPixels() {
         debug('readPixels');
         var header = this.header;
@@ -159,9 +146,7 @@ class TGA {
                         i++;
                     }
                 }
-                this.readTick(count);
             }
-            this.readTick();
         }
 
         this.pixels = pixels;
