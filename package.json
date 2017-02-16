@@ -1,0 +1,28 @@
+{
+  "name": "tga",
+  "version": "0.1.0",
+  "description": "A pure nodejs tga image parser and writer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steel1990/tga.git"
+  },
+  "keywords": [
+    "tga",
+    "image"
+  ],
+  "author": "lbbsteel@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/steel1990/tga/issues"
+  },
+  "homepage": "https://github.com/steel1990/tga#readme",
+  "dependencies": {
+    "debug": "^2.6.1",
+    "progress": "^1.1.8",
+    "smart-buffer": "^3.0.1"
+  }
+}
