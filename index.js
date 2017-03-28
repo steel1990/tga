@@ -153,19 +153,21 @@ class TGA {
     }
     getPixelsBuffer() {
         debug('getPixelsBuffer');
-        var buffer = new SmartBuffer(this.pixels.length * 4);
+        var result = new Uint8Array(this.pixels.length * 4);
         var width = this.header.width;
         var height = this.header.height;
-        for (var i = height - 1; i >= 0; i--) {
+        for (var i = 0; i < height; i++) {
             for (var j = 0; j < width; j++) {
-                var pixel = this.pixels[i * height + j];
-                buffer.writeUInt8(pixel.r);
-                buffer.writeUInt8(pixel.g);
-                buffer.writeUInt8(pixel.b);
-                buffer.writeUInt8(pixel.a);
+                var index = i * width + j;
+                var pixel = this.pixels[index];
+                index = ((height - i - 1) * width + j) * 4;
+                result[index] = pixel.r;
+                result[index + 1] = pixel.g;
+                result[index + 2] = pixel.b;
+                result[index + 3] = pixel.a;
             }
         }
-        return buffer.toBuffer();
+        return new Buffer(result);
     }
 }
 
