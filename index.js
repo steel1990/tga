@@ -132,18 +132,14 @@ class TGA {
             } else if (header.dataTypeCode === 10) {
                 var nums = new Uint8Array(buffer.readBuffer(bytesPerPixel + 1));
                 var count = nums[0] & 0x7f;
-                pixels.push(Pixel.from(nums.slice(1)));
-                if (nums[0] & 0x80) {
-                    // RLE chunk
-                    for (var j = 0; j < count; j++) {
-                        pixels.push(Pixel.from(nums.slice(1)));
-                        i++;
-                    }
-                } else {
-                    // Normal chunk
-                    for (var j = 0; j < count; j++) {
+                var isRLEChunk = nums[0] & 0x80;
+                nums = nums.slice(1);
+                for (var j = 0; j < count; j++) {
+                    i++;
+                    if (isRLEChunk) {
+                        pixels.push(Pixel.from(nums));
+                    } else {
                         pixels.push(Pixel.from(buffer.readBuffer(bytesPerPixel)));
-                        i++;
                     }
                 }
             }
