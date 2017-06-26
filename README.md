@@ -14,35 +14,25 @@ $ npm install tga --save
 
 API
 ========
-### Class TGA(buffer)
-buffer is the tga file Buffer(fs.readFile).
+### Class TGA(buffer, option)
+* buffer: buffer is the tga file Buffer(fs.readFile)
+
 
 ### TGA.createTgaBuffer(width, height, pixels)
 * width: image width
 * height: image height
-* pixels(Array): the image pixels data
-    * r: [0, 255] Red
-    * g: [0, 255] Green
-    * b: [0, 255] Blue
-    * a: [0, 255] Alpha
-
-In tga image file, the bottom goes before top, maybe you should flip by Y to use;
-
-### TGA.prototype.getPixelsBuffer()
-Get the tga file's pixels data Buffer, it will fily Y coordinate, the format is:
-`[r, g, b, a, r, g, b, a...]`
-You can send the buffer to `pngjs`.
+* pixels(Uint8Array): pixels data, [r, g, b, a, r, g, b, a]
 
 Example
 ========
 ```js
 var fs = require('fs');
 var TGA = require('tga');
-var tga = new TGA(fs.readFileSync('./x.tga'));
+var tga = new TGA(fs.readFileSync('./test.tga'));
 console.log(tga.width, tga.height);
-for (var i = 0; i < tga.pixels.length; i++) {
+for (var i = 0; i < tga.pixels.length; i += 4) {
     // the range of r, g, b and a is [0, 255]
-    console.log(tga.pixels[i].r, tga.pixels[i].g, tga.pixels[i].b, tga.pixels[i].a);
+    console.log(tga.pixels[i], tga.pixels[i + 1], tga.pixels[i + 2], tga.pixels[i + 3]);
 }
 
 // save as another tga image
@@ -50,12 +40,12 @@ var buf = TGA.createTgaBuffer(tga.width, tga.height, tga.pixels);
 fs.writeFileSync('./out.tga', buf);
 
 // save the tga as png
-var PNG = require('pngjs');
+var PNG = require('pngjs').PNG;
 var png = new PNG({
-    width: tga.header.width,
-    height: tga.header.height
+    width: tga.width,
+    height: tga.height
 });
-png.data = tga.getPixelsBuffer();
-png.pack().pipe(fs.createWriteStream('./out.png'));
+png.data = tga.pixels;
+png.pack().pipe(fs.createWriteStream('./test.png'));
 
 ```
