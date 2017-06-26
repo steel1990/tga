@@ -128,7 +128,6 @@ class TGA {
         for (var i = 0; i < pixelCount; i++) {
             if (header.dataTypeCode === 2) {
                 this.addPixel(data, offset, i);
-                offset += 4;
             } else if (header.dataTypeCode === 10) {
                 var flag = data[offset++];
                 var count = flag & 0x7f;
@@ -136,12 +135,12 @@ class TGA {
                 this.addPixel(data, offset, i);
                 for (var j = 0; j < count; j++) {
                     if (!isRLEChunk) {
-                        offset += 4;
+                        offset += this.bytesPerPixel;
                     }
                     this.addPixel(data, offset, ++i);
                 }
-                offset += 4;
             }
+            offset += this.bytesPerPixel;
         }
     }
 }
