@@ -14,7 +14,7 @@ $ npm install tga --save
 
 API
 ========
-### Class TGA(buffer, option)
+### Class TGA(buffer)
 * buffer: buffer is the tga file Buffer(fs.readFile)
 
 
