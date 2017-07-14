@@ -23,6 +23,10 @@ API
 * height: image height
 * pixels(Uint8Array): pixels data, [r, g, b, a, r, g, b, a]
 
+### TGA.getHeader(buffer)
+* buffer: buffer is the tga file Buffer(fs.readFile)
+* return a object contain the tga header info such as width, height and so on
+
 Example
 ========
 ```js

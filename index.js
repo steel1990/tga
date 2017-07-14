@@ -39,6 +39,24 @@ class TGA {
 
         return buffer;
     }
+    static getHeader(buffer) {
+        debug('getHeader');
+        var header = {};
+        header.idlength = buffer.readInt8(0);
+        header.colourMapType = buffer.readInt8(1);
+        header.dataTypeCode = buffer.readInt8(2);
+        header.colourMapOrigin = buffer.readInt16LE(3);
+        header.colourMapLength = buffer.readInt16LE(5);
+        header.colourMapDepth = buffer.readInt8(7);
+        header.xOrigin = buffer.readInt16LE(8);
+        header.yOrigin = buffer.readInt16LE(10);
+        header.width = buffer.readInt16LE(12);
+        header.height = buffer.readInt16LE(14);
+        header.bitsPerPixel = buffer.readInt8(16);
+        header.imageDescriptor = buffer.readInt8(17);
+        debug('getHeader', header);
+        return header;
+    }
     parse() {
         debug('parse');
         this.header = this.readHeader();
@@ -49,21 +67,10 @@ class TGA {
     }
     readHeader() {
         debug('readHeader');
-        var buffer = this.buffer;
-        var header = {};
-        header.idlength = buffer.readInt8(0);
-        header.colourMapType = buffer.readInt8(1);
-        header.dataTypeCode = buffer.readInt8(2);
-        header.colourMapOrigin = buffer.readInt16LE(3);
-        header.colourMapLength = buffer.readInt16LE(5);
-        header.colourMapDepth = buffer.readInt8(7);
-        header.xOrigin = buffer.readInt16LE(8);
-        header.yOrigin = buffer.readInt16LE(10);
-        this.width = header.width = buffer.readInt16LE(12);
-        this.height = header.height = buffer.readInt16LE(14);
-        header.bitsPerPixel = buffer.readInt8(16);
+        var header = TGA.getHeader(this.buffer);
+        this.width = header.width;
+        this.height = header.height;
         this.bytesPerPixel = header.bytesPerPixel = header.bitsPerPixel / 8;
-        header.imageDescriptor = buffer.readInt8(17);
         debug('readHeader', header);
         return header;
     }
