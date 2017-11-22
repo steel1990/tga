@@ -29,7 +29,7 @@ class TGA {
         var offset = 18;
         for (var i = 0; i < height; i++) {
             for (var j = 0; j < width; j++) {
-                var idx = ((dontFlipY ? i : height - i) * width + j) * 4;
+                var idx = ((dontFlipY ? i : height - i - 1) * width + j) * 4;
                 buffer.writeUInt8(pixels[idx + 2], offset++);    // b
                 buffer.writeUInt8(pixels[idx + 1], offset++);    // g
                 buffer.writeUInt8(pixels[idx], offset++);        // r
