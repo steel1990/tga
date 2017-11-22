@@ -1,6 +1,6 @@
 {
   "name": "tga",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A pure nodejs tga image parser and writer.",
   "main": "index.js",
   "scripts": {
