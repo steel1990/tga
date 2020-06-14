@@ -4,9 +4,8 @@ const debug = require('debug')('TGA');
 class TGA {
     constructor(buffer, opt) {
         debug('constructor');
-        opt = Object.assign({ isFlipY: true }, opt);
+        // opt = Object.assign(opt);
         this.buffer = buffer;
-        this.isFlipY = opt.isFlipY;
         this.parse();
     }
     static createTgaBuffer(width, height, pixels, dontFlipY) {
@@ -71,6 +70,7 @@ class TGA {
         this.width = header.width;
         this.height = header.height;
         this.bytesPerPixel = header.bytesPerPixel = header.bitsPerPixel / 8;
+        this.isFlipY = !(header.imageDescriptor & 32);
         debug('readHeader', header);
         return header;
     }

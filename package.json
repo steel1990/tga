@@ -1,6 +1,6 @@
 {
   "name": "tga",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A pure nodejs tga image parser and writer.",
   "main": "index.js",
   "scripts": {
@@ -25,5 +25,8 @@
   "homepage": "https://github.com/steel1990/tga#readme",
   "dependencies": {
     "debug": "^2.6.1"
+  },
+  "devDependencies": {
+    "pngjs": "^5.0.0"
   }
 }
