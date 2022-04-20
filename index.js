@@ -137,6 +137,19 @@ class TGA {
             offset,
         };
     }
+
+    readColorWithColorMap(offset, bytesPerPixel) {
+        let index = 0;
+        if (bytesPerPixel === 1) {
+            index = this.buffer.readUInt8(offset);
+        } else if (bytesPerPixel === 2) {
+            index = this.buffer.readUInt16LE(offset);
+        } else if (bytesPerPixel === 4) {
+            index = this.buffer.readUInt32LE(offset);
+        }
+        return this.colorMap.subarray(index * 4, index * 4 + 4);
+    }
+
     readPixels() {
         debug('readPixels');
         const header = this.header;
@@ -146,11 +159,9 @@ class TGA {
 
         this.pixels = new Uint8Array(pixelCount * 4);
 
-        let colorMap;
-
         if (header.colorMapType === 1) {
             const colorMapInfo = this.readColorMap(data, offset);
-            colorMap = colorMapInfo.colorMap;
+            this.colorMap = colorMapInfo.colorMap;
             offset = colorMapInfo.offset;
         }
 
@@ -174,15 +185,23 @@ class TGA {
                     this.setPixel(++i, color);
                 }
             } else if (header.dataTypeCode === 1) {
-                let index = data[offset];
-                if (this.bytesPerPixel === 2) {
-                    index = this.buffer.readUInt16LE(offset);
-                } else if (this.bytesPerPixel === 4) {
-                    index = this.buffer.readUInt32LE(offset);
-                }
-                const color = colorMap.subarray(index * 4, index * 4 + 4);
+                const color = this.readColorWithColorMap(offset, this.bytesPerPixel);
                 this.setPixel(i, color);
                 offset += this.bytesPerPixel;
+            } else if (header.dataTypeCode === 9) {
+                const flag = data[offset++];
+                const count = flag & 0x7f;
+                const isRLEChunk = flag & 0x80;
+                let color = this.readColorWithColorMap(offset, this.bytesPerPixel);
+                offset += this.bytesPerPixel;
+                this.setPixel(i, color);
+                for (let j = 0; j < count; j++) {
+                    if (!isRLEChunk) {
+                        color = this.readColorWithColorMap(offset, this.bytesPerPixel);
+                        offset += this.bytesPerPixel;
+                    }
+                    this.setPixel(++i, color);
+                }
             }
         }
     }
