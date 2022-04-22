@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/steel1990/tga#readme",
   "dependencies": {
-    "debug": "^2.6.1"
+    "debug": "^2.6.1",
+    "restructure": "^2.0.0"
   },
   "devDependencies": {
     "pngjs": "^5.0.0"

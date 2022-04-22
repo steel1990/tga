@@ -81,7 +81,7 @@ class TGA {
         debug('check tga file');
         const header = this.header;
         /* What can we handle */
-        if (![1, 2, 10].includes(header.dataTypeCode)) {
+        if (![1, 2, 9, 10].includes(header.dataTypeCode)) {
             console.error('Can only handle image type 2 and 10');
             return false;
         }

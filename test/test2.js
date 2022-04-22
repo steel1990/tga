@@ -1,6 +1,6 @@
 var fs = require('fs');
 const path = require('path');
-var TGA = require('../index');
+var TGA = require('../src/parser');
 
 function convertToPNG(src, dest) {
     var fileBuffer = fs.readFileSync(src);
@@ -10,8 +10,8 @@ function convertToPNG(src, dest) {
     console.timeEnd('parse tga');
     console.log('tga info:', tga.width, tga.height);
 
-    var buf = TGA.createTgaBuffer(tga.width, tga.height, tga.pixels);
-    fs.writeFileSync('./out.tga', buf);
+    // var buf = TGA.createTgaBuffer(tga.width, tga.height, tga.pixels);
+    // fs.writeFileSync('./out.tga', buf);
 
     console.time('topng');
     var PNG = require('pngjs').PNG;
@@ -66,5 +66,5 @@ const list = [
 ];
 
 list.forEach((file) => {
-    convertToPNG(path.join(__dirname, file), path.join(__dirname, file + '.png'));
+    convertToPNG(path.resolve(__dirname, '../testFiles', file), path.resolve(__dirname, '../testFiles', file + '.png'));
 })
