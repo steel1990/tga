@@ -215,7 +215,7 @@ class TGA {
                 alpha0Count++;
             }
         }
-        if (alpha0Count > this.pixels.length / 4) {
+        if (alpha0Count === this.pixels.length / 4) {
             // all pixels are transparent, convert all alpha to 255
             for (let i = this.pixels.length - 1; i > 0; i -= 4) {
                 if (!this.pixels[i]) {
