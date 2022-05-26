@@ -5,7 +5,8 @@ const debug = require('debug')('TGA');
 const tempColor = new Uint8Array(4);
 
 class TGA {
-    constructor(buf) {
+    constructor(buf, opt = { dontFixAlpha: false }) {
+        this.dontFixAlpha = !!opt.dontFixAlpha;
         this._buf = buf;
         this.data = new Uint8Array(buf);
         this.currentOffset = 0;
@@ -201,7 +202,9 @@ class TGA {
             this.parseColorMap();
         }
         this.parsePixels();
-        this.fixForAlpha();
+        if (!this.dontFixAlpha) {
+            this.fixForAlpha();
+        }
     }
 
     fixForAlpha() {
