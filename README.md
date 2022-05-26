@@ -14,8 +14,10 @@ $ npm install tga --save
 
 API
 ========
-### Class TGA(buffer)
+### Class TGA(buffer, opt = { dontFixAlpha: false })
 * buffer: buffer is the tga file Buffer(fs.readFile)
+* opt: tga parse options
+    * dontFixAlpha: some tga image is fully transparent, it will convert the alpha chanel to 255, you can turn this on if you dont want this feature.
 
 
 ### TGA.createTgaBuffer(width, height, pixels)
